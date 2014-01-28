@@ -25,34 +25,3 @@ var getCommonWords = function(wordList) {
   }
   return commonWords;
 }
-
-// words = require("words");
-
-// http = require("http");
-// url = require("url");
-// querystring = require("querystring");
-// fs = require("fs");
-
-
-// 'Access-Control-Allow-Origin' : '*'
-
-// requestHandler = function(req, res) {
-//   var pathname = url.parse(req.url);
-//   if(pathname === '/') {
-//     // serve index.html
-//   }
-//   if(pathname === '/words') {
-//     // serve object with words and score
-//   }
-
-//   console.log(res);
-//   res.writeHead(200, {"Content-Type": "text/plain"});
-//   res.write("Hello World!");
-//   res.end();
-// }
-
-// server = http.createServer(requestHandler).listen(8080);
-
-// var getWords = function() {
-//   console.log(words);
-// }
