@@ -8,11 +8,9 @@
   <meta name="description" content="HTML5 Template">
   <meta name="author" content="Pieter de Jong">
 
-  <!-- // <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
-  <script type="text/javascript" src="jquery-2.1.0.js"></script>
-  <script type="text/javascript" src="underscore-1.5.2.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 
-  <script type="text/javascript" src="words.js"></script>
 
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -28,34 +26,44 @@
     position: relative;
     width: 800px;
 
-    margin: 0 auto;
-    border-right: 1px solid brown;
-    border-left: 1px solid brown;
+    margin: 30px auto;
+    border: 1px solid darkblue;
+    background: #E4ECF2;
 
     text-align: center;
   }  
-  ul#nav {
+
+  div#header h1 {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+  }
+  ul#topbar {
     list-style-type: none;
     text-align: right; 
-
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 12px;
     margin: 0;
-
+    border: 1px solid black;
+    position: relative;
     
 
     padding: 0;
     
   }
-  ul#nav li {
+  ul#topbar li {
     display: inline;
 
+
   }
-  ul#nav li a {
+  ul#topbar li a {
     text-decoration: none;
-    padding: 4px 8px;
+    /*padding: 10px;*/
+    margin: 20px;
+    border: 1px solid black;
+    
     color: black;
   }
-  ul#nav li a:hover {
-    background: beige;
+  ul#topbar li a:hover {
+    background: orange;
     border-bottom: 1px solid black;
   }
 
@@ -68,6 +76,32 @@
     width: 600px;
     margin: 0 auto;
   }
+  form button {
+    cursor: pointer;
+    border: 1px solid darkblue;
+    background: #E4ECF2;
+    -moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+border-radius: 2px;
+
+-webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
+-moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
+box-shadow: 0 0 1px rgba(0,0,0, .75);
+
+font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 12px;
+
+    padding: 8px 16px;
+  }
+
+  form button:hover {
+background: orange;
+  }
+
+#analysis {
+  
+}
+
   #footer {
 
   }
@@ -77,47 +111,65 @@
 
 <body>
   <div id="container">
-    <ul id="nav">
+    <ul id="topbar">
       <li><a href="#">About</a></li>
       <li><a href="#">Contact</a></li>
       <li><a href="#">Words</a></li>
     </ul>
 
     <div id="header">
-      Welcome to Ten-Hundred
+      <h1>Welcome to Ten-Hundred</h1>
     </div>
 
     <form>
       <textarea rows="30" cols="80"></textarea>
       <button>Analyze Text</button>
     </form>
+    
+    <hr />
+
+    <div id="analysis">
+Word count: 
+    </div>
 
     <div id="footer">
-      Footer
+      
     </div>
 
 
   </div>
 
   <script type="text/javascript">
+    var highlightWords = function(words) {
+      console.log("highlightWords called");
+      $.each($("textarea").val().split(' '), function(i, text){
+        $(this).css("background", "black");
+      });
+    }
+
+
     $(document).ready(function(){
       $("textarea").on("keyup", function(){
         var numWords = $("textarea").val().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ').length;
-        $("#footer").text("number of words:" + numWords);
+        $("#analysis").text("Word count: " + numWords);
       });
       $("button").on("click", function(e) {
-        console.log("submitted");
         e.preventDefault();
-        console.log("submitted");
-        var words = $("textarea").val().replace(/\W/, ' ').split(' ');
-        console.log("words");
-        console.log(words);
-        console.log(words.length);
-         
-        // parse text: escape html
-       
-        // count words
-        // console log
+        var words = $("textarea").val().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ');
+        console.log("button clicked: ", words);
+        $.ajax({
+          url: "/",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(words),
+          success: function(res){
+            console.log("success, words:", res);
+            highlightWords(res);
+          },
+          error: function(res) {
+            console.log("failure, response: ", res);
+          },
+        });
       });
     });    
   </script>
