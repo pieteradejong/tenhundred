@@ -71,6 +71,16 @@
       width: 600px;
     }
 
+    form div#textarea {
+      height: 300px;
+      border: 1px solid darkblue;
+    }
+
+    form div#textarea span {
+      background: red;
+
+    }
+
     form button {
       background: #E4ECF2;
       border: 1px solid darkblue;
@@ -113,48 +123,62 @@
     </div>
 
     <form>
-      <textarea rows="30" cols="80"></textarea>
+      <div id="textarea" contenteditable></div>
       <button>Analyze Text</button>
     </form>
     
     <hr />
 
     <div id="analysis">
-Word count: 
+      Word count: 
     </div>
 
-    <div id="footer">
-      
-    </div>
-
+    <div id="footer"></div>
 
   </div>
 
   <script type="text/javascript">
     var highlightWords = function(words) {
-      console.log("highlightWords called");
-      $.each($("textarea").val().split(' '), function(i, text){
-        $(this).css("background", "black");
+      // console.log("highlightWords called");
+      var textareaContent = $("#textarea").text().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ');
+      
+      $("#textarea").html("");
+      
+      $(textareaContent).each(function(i, word){
+        if(words[word]) {
+          console.log("word list contains this word");
+          $("#textarea").append(" <span>" + word + "</span>");
+          // newHtml.append($(word).wrap("<span>"));
+          // $("#textarea").append($(word).wrap("<span>"));
+          // $("#textarea").append();
+          // console.log("word is a ", typeof word); // string
+          // console.log($(word).wrap("<span>"));
+        } else {
+          console.log("word list does NOT contain this word");
+          
+          $("#textarea").append(word);
+        }
       });
     }
 
-
     $(document).ready(function(){
+      
       $("textarea").on("keyup", function(){
         var numWords = $("textarea").val().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ').length;
         $("#analysis").text("Word count: " + numWords);
       });
-      $("button").on("click", function(e) {
+      
+      $("form").submit(function(e) {
         e.preventDefault();
-        var words = $("textarea").val().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ');
-        console.log("button clicked: ", words);
+        var words = $("#textarea").text().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ');
+        
         $.ajax({
           url: "/",
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify(words),
           success: function(res){
-            console.log("success, words:", res);
+        
             highlightWords(res);
           },
           error: function(res) {
@@ -162,7 +186,8 @@ Word count:
           },
         });
       });
-    });    
+    });
+
   </script>
 </body>
 </html>
