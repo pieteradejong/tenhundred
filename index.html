@@ -72,13 +72,20 @@
     }
 
     form div#textarea {
-      height: 300px;
       border: 1px solid darkblue;
+      height: 300px;
+      font-family: Verdana;
+      font-size: 12px;
+      padding: 10px;
+      text-align: left;
+    }
+
+    form div#textarea:focus {
+      outline: 0px solid transparent;
     }
 
     form div#textarea span {
-      background: red;
-
+      background: pink;
     }
 
     form button {
@@ -101,6 +108,9 @@
     }
 
     #analysis {
+      font-family: Verdana;
+      font-size: 12px;
+      margin: 10px 0;
     }
 
     #footer {
@@ -127,8 +137,6 @@
       <button>Analyze Text</button>
     </form>
     
-    <hr />
-
     <div id="analysis">
       Word count: 
     </div>
@@ -139,32 +147,23 @@
 
   <script type="text/javascript">
     var highlightWords = function(words) {
-      // console.log("highlightWords called");
+      
       var textareaContent = $("#textarea").text().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ');
-      
       $("#textarea").html("");
-      
       $(textareaContent).each(function(i, word){
         if(words[word]) {
-          console.log("word list contains this word");
           $("#textarea").append(" <span>" + word + "</span>");
-          // newHtml.append($(word).wrap("<span>"));
-          // $("#textarea").append($(word).wrap("<span>"));
-          // $("#textarea").append();
-          // console.log("word is a ", typeof word); // string
-          // console.log($(word).wrap("<span>"));
         } else {
-          console.log("word list does NOT contain this word");
-          
           $("#textarea").append(word);
         }
       });
+
     }
 
     $(document).ready(function(){
       
-      $("textarea").on("keyup", function(){
-        var numWords = $("textarea").val().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ').length;
+      $("#textarea").on("keyup", function(){
+        var numWords = $("#textarea").text().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ').length;
         $("#analysis").text("Word count: " + numWords);
       });
       
@@ -186,6 +185,7 @@
           },
         });
       });
+
     });
 
   </script>
