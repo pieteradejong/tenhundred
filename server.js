@@ -7,10 +7,9 @@ var words = require("./words");
 app.get('/', function(req, res){
   res.sendfile('./index.html');  
 });
+
 app.post('/', function(req, res){
-  console.log("is array: ", Array.isArray(req.body));
   var parsedWords = getCommonWords(req.body);
-  console.log("these are the parsed words: ", parsedWords);
   res.send(parsedWords);
 });
 
