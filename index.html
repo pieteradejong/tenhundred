@@ -8,129 +8,14 @@
   <meta name="description" content="Ten Hundred">
   <meta name="author" content="Pieter de Jong">
 
+  <link rel="stylesheet" href="style.css?v=1.0">
+
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-
-  <style>
-  
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    div#container {
-      background: #E4ECF2;
-      border: 1px solid darkblue;
-      margin: 30px auto;
-      padding: 20px;
-      position: relative;
-      text-align: center;
-      width: 800px;
-    }  
-
-    div#header h1 {
-      font-family: "Trebuchet MS", Helvetica, sans-serif;
-    }
-
-    div#header ol, div#header p {
-      font-family: Verdana;
-      font-size: 12px;
-      margin: 0px auto;
-      text-align: left;
-      width: 500px;
-    }
-    div#header ol {
-      margin-top: 10px;
-    }
-
-    ul#topbar {
-      border: 1px solid black;
-      display: none;  
-      font-family: "Trebuchet MS", Helvetica, sans-serif;
-      font-size: 12px;
-      list-style-type: none;
-      margin: 0;
-      position: relative;
-      padding: 0;
-      text-align: right;
-    }
-
-    ul#topbar li {
-      display: inline;
-    }
-
-    ul#topbar li a {
-      border: 1px solid black;
-      color: black;
-      margin: 20px;
-      text-decoration: none;
-    }
-
-    ul#topbar li a:hover {
-      background: orange;
-      border-bottom: 1px solid black;
-    }
-
-    #header {
-    }
-
-    form {
-      margin: 0 auto;
-      width: 600px;
-    }
-
-    form div#textarea {
-      border: 1px solid darkblue;
-      height: 300px;
-      font-family: Verdana;
-      font-size: 12px;
-      margin: 20px 0;
-      padding: 10px;
-      text-align: left;
-    }
-
-    form div#textarea:focus {
-      outline: 0px solid transparent;
-    }
-
-    form div#textarea span {
-      background: pink;
-    }
-
-    form button {
-      background: #E4ECF2;
-      border: 1px solid darkblue;
-      border-radius: 2px;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      box-shadow: 0 0 1px rgba(0,0,0, .75);
-      -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
-      -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
-      cursor: pointer;
-      font-family: "Trebuchet MS", Helvetica, sans-serif;
-      font-size: 12px;
-      padding: 8px 16px;
-    }
-
-    form button:hover {
-      background: orange;
-    }
-
-    #analysis {
-      font-family: Verdana;
-      font-size: 12px;
-      margin: 10px 0;
-      
-    }
-
-    #footer {
-    }
-
-  </style>
   
 </head>
 
@@ -160,6 +45,7 @@
     
     <div id="analysis">
       Word count: 
+      Text complexity: 
     </div>
 
     <div id="footer"></div>
@@ -172,12 +58,17 @@
       var textareaContent = $("#textarea").text().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ');
       $("#textarea").html("");
       $(textareaContent).each(function(i, word){
-        if(words[word]) {
-          $("#textarea").append(" <span>" + word + "</span>");
+        if(words[word] === 100) {
+          $("#textarea").append(" <span class='f100'>" + word + "</span>");
+        } else if(words[word] === 200) {
+          $("#textarea").append(" <span class='f200'>" + word + "</span>");
         } else {
           $("#textarea").append(" " + word);
         }
       });
+
+      // analyze and display text complexity
+      $("#analysis").append();
 
     }
 
