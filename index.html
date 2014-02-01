@@ -55,20 +55,29 @@
   <script type="text/javascript">
     var highlightWords = function(words) {
       
+      var freqCount = {
+        '100': 0,
+        '200': 0,
+        'allwords': 0
+      };
+
       var textareaContent = $("#textarea").text().trim().replace(/\W/g, ' ').replace(/\s+/g, ' ').split(' ');
       $("#textarea").html("");
       $(textareaContent).each(function(i, word){
         if(words[word] === 100) {
+          freqCount['100']++;
           $("#textarea").append(" <span class='f100'>" + word + "</span>");
         } else if(words[word] === 200) {
+          freqCount['200']++;
           $("#textarea").append(" <span class='f200'>" + word + "</span>");
         } else {
+          freqCount['allwords']++;
           $("#textarea").append(" " + word);
         }
       });
 
       // analyze and display text complexity
-      // $("#analysis").append();
+      $("#analysis").append("100: ", freqCount['100'], "200: ", freqCount['200'], "total: ", freqCount['allwords']);
 
     }
 
